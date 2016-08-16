@@ -13,6 +13,8 @@ public class Constant {
 		public static final String RIGHT_PARENTHESES = ")";
 		// 逗号
 		public static final String COMMA = ",";
+		// 点号
+		public static final String POINT = ".";
 		// 下划线
 		public static final String UNDERSCORE = "_";
 	}
@@ -33,6 +35,9 @@ public class Constant {
 		public static final String SQL_PATH = "sql_path";
 		public static final String PROJECT_PATH = "project_path";
 		public static final String UNDERSCORE_TO_CAMEL_CASE = "underscore_to_camel_case";
+		public static final String TEMPLATE_PATH = "template_path";
+		public static final String SQL_TEMPLATE_NAME = "sql_template_name";
+		public static final String ENTITY_TEMPLATE_NAME = "entity_template_name";
 	}
 
 	public final static class ExcelConfig {
