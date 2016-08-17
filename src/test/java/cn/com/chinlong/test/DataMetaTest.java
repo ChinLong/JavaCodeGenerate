@@ -2,9 +2,10 @@ package cn.com.chinlong.test;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import cn.com.chinlong.utils.JdbcUtils;
 
 public class DataMetaTest {
 
@@ -18,15 +19,15 @@ public class DataMetaTest {
 	private void getDatabaseMetaData() {
 		try {
 			if (dbMetaData == null) {
-				Class.forName("com.mysql.jdbc.Driver");
-				String url = "jdbc:mysql://localhost:3306/wordpress";
-				String user = "root";
-				String password = "root";
-				con = DriverManager.getConnection(url, user, password);
+				/*
+				 * Class.forName("com.mysql.jdbc.Driver"); String url =
+				 * "jdbc:mysql://localhost:3306/mtw.homepage"; String user =
+				 * "root"; String password = "root"; con =
+				 * DriverManager.getConnection(url, user, password);
+				 */
+				con = JdbcUtils.getConnection();
 				dbMetaData = con.getMetaData();
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -154,9 +155,8 @@ public class DataMetaTest {
 				 */
 				String isAutoincrement = rs.getString("IS_AUTOINCREMENT");
 
-				System.out.println(tableCat + "-" + tableSchemaName + "-" + tableName_ + "-" + columnName + "-" + dataType + "-" + dataTypeName + "-"
-						+ columnSize + "-" + decimalDigits + "-" + numPrecRadix + "-" + nullAble + "-" + remarks + "-" + columnDef + "-" + sqlDataType + "-"
-						+ sqlDatetimeSub + charOctetLength + "-" + ordinalPosition + "-" + isNullAble + "-" + isAutoincrement + "-");
+				System.out.println(tableCat + "-" + tableSchemaName + "-" + tableName_ + "-" + columnName + "-" + dataType + "-" + dataTypeName + "-" + columnSize + "-" + decimalDigits + "-" + numPrecRadix + "-" + nullAble + "-" + remarks + "-" + columnDef + "-" + sqlDataType
+						+ "-" + sqlDatetimeSub + charOctetLength + "-" + ordinalPosition + "-" + isNullAble + "-" + isAutoincrement + "-");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -185,8 +185,7 @@ public class DataMetaTest {
 				String columnName = rs.getString("COLUMN_NAME");// 列名
 				String ascOrDesc = rs.getString("ASC_OR_DESC");// 列排序顺序:升序还是降序
 				int cardinality = rs.getInt("CARDINALITY"); // 基数
-				System.out.println(nonUnique + "-" + indexQualifier + "-" + indexName + "-" + type + "-" + ordinalPosition + "-" + columnName + "-" + ascOrDesc
-						+ "-" + cardinality);
+				System.out.println(nonUnique + "-" + indexQualifier + "-" + indexName + "-" + type + "-" + ordinalPosition + "-" + columnName + "-" + ascOrDesc + "-" + cardinality);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -263,8 +262,7 @@ public class DataMetaTest {
 				 */
 				short deferRability = rs.getShort("DEFERRABILITY");
 
-				System.out.println(pkTableCat + "-" + pkTableSchem + "-" + pkTableName + "-" + pkColumnName + "-" + fkTableCat + "-" + fkTableSchem + "-"
-						+ fkTableName + "-" + fkColumnName + "-" + keySeq + "-" + updateRule + "-" + delRule + "-" + fkName + "-" + pkName + "-"
+				System.out.println(pkTableCat + "-" + pkTableSchem + "-" + pkTableName + "-" + pkColumnName + "-" + fkTableCat + "-" + fkTableSchem + "-" + fkTableName + "-" + fkColumnName + "-" + keySeq + "-" + updateRule + "-" + delRule + "-" + fkName + "-" + pkName + "-"
 						+ deferRability);
 			}
 		} catch (SQLException e) {
@@ -288,10 +286,10 @@ public class DataMetaTest {
 		// metaData.getAllTableList(null);
 		// metaData.getAllViewList(null);
 		// metaData.getAllSchemas();
-		// metaData.getTableColumns(null, "wp_users");
-		// metaData.getIndexInfo(null, "wp_users");
-		 metaData.getAllPrimaryKeys(null, "wp_users");
-		//metaData.getAllExportedKeys(null, "wp_users");
+		metaData.getTableColumns(null, "af_product_size");
+		// metaData.getIndexInfo(null, "af_product_size");
+		// metaData.getAllPrimaryKeys(null, "af_product_size");
+		// metaData.getAllExportedKeys(null, "af_product_size");
 
 	}
 

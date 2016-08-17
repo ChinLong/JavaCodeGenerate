@@ -16,12 +16,9 @@ import cn.com.chinlong.common.Constant.TemplateConfig;
 public final class JdbcUtils {
 	// LOG
 	private static Log logger = LogFactory.getLog(JdbcUtils.class);
-
 	private static String url;
-	private static String username;
-	private static String password;
 	private static Connection con = null;
-
+	private static Properties props = new Properties();
 	// 单例
 	private static JdbcUtils instance = null;
 
@@ -50,8 +47,14 @@ public final class JdbcUtils {
 	static {
 		Properties p = PropertyUtils.getProperty(Resource.TEMPLETE_FILENAME);
 		url = p.getProperty(TemplateConfig.DB_URL);
-		username = p.getProperty(TemplateConfig.DB_USERNAME);
-		password = p.getProperty(TemplateConfig.DB_PASSWORD);
+		props.setProperty("user", p.getProperty(TemplateConfig.DB_USERNAME));
+		props.setProperty("password", p.getProperty(TemplateConfig.DB_PASSWORD));
+		// 设置可以获取remarks信息
+		props.setProperty("remarks", "true");
+		// 设置可以获取tables emarks信息
+		props.setProperty("useInformationSchema", "true");
+		// !!! Oracle 如果想要获取元数据 REMARKS 信息,需要加此参数
+		props.put("remarksReporting", "true");
 		try {
 			Class.forName(p.getProperty(TemplateConfig.DB_DRIVER));
 		} catch (ClassNotFoundException e) {
@@ -67,7 +70,7 @@ public final class JdbcUtils {
 	 */
 	public static Connection getConnection() {
 		try {
-			con = DriverManager.getConnection(url, username, password);
+			con = DriverManager.getConnection(url, props);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			logger.error(" Get DB Connection Error : ", e);
