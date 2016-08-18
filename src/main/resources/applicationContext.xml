@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd   
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd" default-autowire="byName">
+
+
+
+	<!-- 打开注解 -->
+	<context:annotation-config />
+
+	<!-- 打开自动扫描 -->
+	<context:component-scan base-package="com.qmw.*" />
+
+    <!-- scan for mappers and let them be autowired -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.qmw.*.mapper" />
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+    
+	<bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+
+		<property name="jdbcUrl"
+			value="jdbc:mysql://127.0.0.1:3306/qmw?useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+		<property name="idleConnectionTestPeriodInMinutes" value="240" />
+		<property name="idleMaxAgeInMinutes" value="60" />
+		<property name="maxConnectionsPerPartition" value="6" />
+		<property name="minConnectionsPerPartition" value="2" />
+		<property name="partitionCount" value="2" />
+		<property name="acquireIncrement" value="2" />
+		<property name="statementsCacheSize" value="0" />
+		<property name="disableConnectionTracking" value="1" />
+		<property name="lazyInit" value="true" />
+	</bean>
+	
+
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 事务切面定义 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 以下方法必须在事务内，如果外层已有事务，则使用外层事务，如果没有事务则创建 -->
+			<tx:method name="create*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="veryfi*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<!-- query开头的service层方法支持事务，不是必须在事务内，只读 -->
+			<tx:method name="query*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<!-- 以tx开头的service层方法必须在开启一个新的事务 -->
+			<tx:method name="tx*" propagation="REQUIRES_NEW" />
+			<!-- 其余方法支持事务，但不必须在事务内，只读 -->
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置sqlSessionFactory工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用cglib方式产生代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
+
+	
+	<!-- Log模块 -->
+	 <bean id="logUtil" class="com.qmw.log.utils.LogUtil" /> 
+	<aop:config>
+        <!-- 匹配所有包中所有类指定的方法-->
+        <aop:advisor id="logUtilAdvisor" advice-ref="logUtil" pointcut="execution(* *..controller..*(..)) || execution(* *..service..*(..))" />
+   </aop:config>
+	
+    <!-- freemarker初始化 -->
+   <!--  <bean id="freeMarkerConfigurer" -->
+       <!-- class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">-->
+        <!--<property name="templateLoaderPath" value="classpath:com/rongzer/templates/mail" /> 指定模板文件目录 -->
+       <!-- <property name="freemarkerSettings"> 设置FreeMarker环境属性 -->
+          <!--  <props>-->
+             <!--   <prop key="template_update_delay">1800</prop>刷新模板的周期，单位为秒 -->
+             <!--   <prop key="default_encoding">UTF-8</prop>模板的编码格式 -->
+            <!--    <prop key="locale">zh_CN</prop> 本地化设置 -->
+           <!-- </props>-->
+       <!-- </property>-->
+   <!-- </bean>-->
+
+  <!--  <bean id="mailNotifierFactory"-->
+       <!-- class="com.rongzer.rdp.notification.service.utils.MailNotifierFactory">-->
+    <!--</bean>-->
+	
+	<!--<import resource="jobContext.xml" />-->
+	
+</beans>

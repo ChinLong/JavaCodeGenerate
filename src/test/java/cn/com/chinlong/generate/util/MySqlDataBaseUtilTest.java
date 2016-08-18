@@ -16,7 +16,8 @@ public class MySqlDataBaseUtilTest {
 
 	@Test
 	public void testGetAllTableNames() {
-		List<TableEntity> tableList = MySqlDataBaseUtil.getAllTableNames();
+		IDataBaseUtil dataBaseUtil = new MySqlDataBaseUtil();
+		List<TableEntity> tableList = dataBaseUtil.getAllTableNames();
 		for (TableEntity table : tableList) {
 			System.out.println(table.getTableName() + "  |  " + table.getTableNameDesc());
 		}
@@ -24,7 +25,8 @@ public class MySqlDataBaseUtilTest {
 
 	@Test
 	public void testGetTableInfo() {
-		TableEntity table = MySqlDataBaseUtil.getTableInfo("af_product_size");
+		IDataBaseUtil dataBaseUtil = new MySqlDataBaseUtil();
+		TableEntity table = dataBaseUtil.getTableInfo("af_product_size");
 		System.out.println(table.getTableName() + "    " + table.getTableNameDesc());
 		System.out.println(table.getPrimaryKeyList());
 		for (TableColumnEntity column : table.getColumnList()) {

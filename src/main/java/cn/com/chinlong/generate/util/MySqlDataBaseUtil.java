@@ -12,14 +12,14 @@ import cn.com.chinlong.generate.entity.TableColumnEntity;
 import cn.com.chinlong.generate.entity.TableEntity;
 import cn.com.chinlong.utils.JdbcUtils;
 
-public class MySqlDataBaseUtil {
+public class MySqlDataBaseUtil implements IDataBaseUtil {
 
 	/**
 	 * 获取指定数据库和用户的所有表名
 	 * 
 	 * @return
 	 */
-	public static List<TableEntity> getAllTableNames() {
+	public List<TableEntity> getAllTableNames() {
 		Connection con = JdbcUtils.getConnection();
 		List<TableEntity> tableList = new ArrayList<TableEntity>();
 		TableEntity table = null;
@@ -55,7 +55,7 @@ public class MySqlDataBaseUtil {
 	 * @param tableName
 	 * @return
 	 */
-	public static TableEntity getTableInfo(String tableName) {
+	public TableEntity getTableInfo(String tableName) {
 		TableEntity tableInfo = new TableEntity();
 		List<TableColumnEntity> cols = new ArrayList<TableColumnEntity>();
 		TableColumnEntity col = null;

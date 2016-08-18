@@ -10,7 +10,7 @@ public interface IDataBaseUtil {
 	 * 
 	 * @return
 	 */
-	public List<String> getAllTableNames();
+	public List<TableEntity> getAllTableNames();
 
 	/**
 	 * 根据表名查询表信息

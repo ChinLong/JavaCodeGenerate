@@ -5,6 +5,9 @@ public class Constant {
 	public final static class Encoding {
 		public static final String UTF8 = "UTF-8";
 	}
+	public final static class SystemConfig {
+		public static final String SESSION_USER_KEY = "session_user";
+	}
 
 	public final static class Sign {
 		// 左括号
@@ -50,7 +53,7 @@ public class Constant {
 
 		public static final String TABLE_NAME_POSITION = "table_name_position"; // 表名
 		public static final String TABLE_NAME_DESC_POSITION = "table_name_desc_position"; // 表名
-		// public static final String START_SHEET = "start_sheet"; // 从第几sheet开始
+		public static final String START_SHEET = "start_sheet"; // 从第几sheet开始
 		public static final String START_ROW = "start_row"; // 从第几行开始
 		public static final String COLUMN_SELECTED_STR = "column_selected_str"; // 表示勾选
 		public static final String COLUMN_UNSELECTED_STR = "column_unselected_str"; // 表示没勾选
