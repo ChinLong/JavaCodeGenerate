@@ -162,7 +162,7 @@ public class ExcelUtil {
 				if (StringUtils.isEmpty(tempItem)) {
 					continue;
 				} else {
-					tempItem = StringUtils.safeTrim(tempItem);
+					tempItem = StringUtils.safeToString(tempItem).trim();
 				}
 				column.setColumnName(tempItem);
 				// 属性名称
@@ -170,7 +170,7 @@ public class ExcelUtil {
 				if (null != cell) {
 					cell.setCellType(Cell.CELL_TYPE_STRING);
 				}
-				tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+				tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 				column.setColumnNameDesc(tempItem);
 				// 备注
 				if (StringUtils.isNotEmpty(columnRemarkCel)) {
@@ -178,7 +178,7 @@ public class ExcelUtil {
 					if (null != cell) {
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 					}
-					tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+					tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 					column.setColumnRemark(tempItem);
 				}
 				// 数据类型
@@ -187,19 +187,19 @@ public class ExcelUtil {
 					if (null != cell) {
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 					}
-					tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+					tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 					// 如果数据类型包含长度
 					if (columnDatatypeWithLength) {
 						index1 = tempItem.indexOf(Sign.LEFT_PARENTHESES);
 						if (index1 > 0) {
-							column.setColumnDataType(StringUtils.safeTrim(tempItem.substring(0, index1)));
+							column.setColumnDataType(StringUtils.safeToString(tempItem.substring(0, index1)).trim());
 							index2 = tempItem.indexOf(Sign.COMMA);
 							index3 = tempItem.indexOf(Sign.RIGHT_PARENTHESES);
 							if (index3 > 0) {
-								column.setPrecision(Integer.valueOf(StringUtils.safeTrim(tempItem.substring(index1, index2))));
-								column.setScale(Integer.valueOf(StringUtils.safeTrim(tempItem.substring(index2, index3))));
+								column.setPrecision(Integer.valueOf(StringUtils.safeToString(tempItem.substring(index1, index2))));
+								column.setScale(Integer.valueOf(StringUtils.safeToString(tempItem.substring(index2, index3)).trim()));
 							} else {
-								column.setPrecision(Integer.valueOf(StringUtils.safeTrim(tempItem.substring(index1, index3))));
+								column.setPrecision(Integer.valueOf(StringUtils.safeToString(tempItem.substring(index1, index3)).trim()));
 							}
 						} else {
 							column.setColumnDataType(tempItem);
@@ -214,7 +214,7 @@ public class ExcelUtil {
 						if (null != cell) {
 							cell.setCellType(Cell.CELL_TYPE_STRING);
 						}
-						tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+						tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 						// 含小数时
 						if (StringUtils.isNotEmpty(tempItem) && !tempItem.equalsIgnoreCase(columnUnselectedStr)) {
 							column.setPrecision(Integer.valueOf(tempItem));
@@ -223,7 +223,7 @@ public class ExcelUtil {
 								if (null != cell) {
 									cell.setCellType(Cell.CELL_TYPE_STRING);
 								}
-								tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+								tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 								if (StringUtils.isNotEmpty(tempItem) && !tempItem.equalsIgnoreCase(columnUnselectedStr)) {
 									column.setScale(Integer.valueOf(tempItem));
 								}
@@ -236,7 +236,7 @@ public class ExcelUtil {
 								if (null != cell) {
 									cell.setCellType(Cell.CELL_TYPE_STRING);
 								}
-								tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+								tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 								if (StringUtils.isNotEmpty(tempItem) && !tempItem.equalsIgnoreCase(columnUnselectedStr)) {
 									column.setPrecision(Integer.valueOf(tempItem));
 								}
@@ -250,7 +250,7 @@ public class ExcelUtil {
 					if (null != cell) {
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 					}
-					tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+					tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 					if (StringUtils.isNotEmpty(tempItem) && tempItem.equalsIgnoreCase(columnSelectedStr)) {
 						column.setPrimaryKey(true);
 					}
@@ -261,7 +261,7 @@ public class ExcelUtil {
 					if (null != cell) {
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 					}
-					tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+					tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 					if (StringUtils.isNotEmpty(tempItem) && tempItem.equalsIgnoreCase(columnSelectedStr)) {
 						column.setUniqueKey(true);
 					}
@@ -272,7 +272,7 @@ public class ExcelUtil {
 					if (null != cell) {
 						cell.setCellType(Cell.CELL_TYPE_STRING);
 					}
-					tempItem = StringUtils.safeTrim(cell.getStringCellValue());
+					tempItem = StringUtils.safeToString(cell.getStringCellValue()).trim();
 					column.setNullable(true);
 					if (StringUtils.isNotEmpty(tempItem) && tempItem.equalsIgnoreCase(columnSelectedStr)) {
 						column.setNullable(false);

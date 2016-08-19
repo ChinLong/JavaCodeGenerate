@@ -15,59 +15,34 @@
 <script src="../resource/js/base.js"></script>
 </head>
 <body>
-
 	<jsp:include page="base.jsp" />
-	
+
 	<!-- content atart -->
 	<section class="rt_wrap content mCustomScrollbar">
+		<br>
+		<div align="center">
+			<input class="btn" type="button" value="Create Java Bean" onclick="createJavaCodeInTable()">
+		</div>
 		<div class="rt_content">
 			<div align="center">
 				<br>
-				<h1>
-					<strong>This is Generate Page</strong>
-				</h1>
-				<br>
-				<h1>If you config the properties right, please go head!</h1>
-				<br>
-				<h1>Please check the properties!</h1>
-				<br>
-
 				<table border="1" bordercolor="#DDDDDD"  style="table-layout:fixed;border-collapse:collapse;width:60%;">
 					<thead>
 						<tr>
-							<th>
-								<h2>
-									<strong>Template Config</strong>
-								</h2>
-							</th>
+							<th style="width: 8%"><input type="button" onclick="changeCheckbox()" value="Invert"></th>
+							<th style="width:45%">Table Name</th>
+							<th style="width:45%">Table Remark</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${propTemplate}" var="prop">
+						<c:forEach items="${tableDataList}" var="table">
 							<tr>
-								<td><h3>${prop}</h3></td>
+								<td><input name="ckbox" type="checkbox" value="${table.tableName}"></td>
+								<td><h3>${table.tableName}</h3></td>
+								<td><h3>${table.tableNameDesc}</h3></td>
 							</tr>
 						</c:forEach>
 					<tbody>
-				</table>
-				<br>
-				<table border="1" bordercolor="#DDDDDD" style="table-layout:fixed;border-collapse:collapse;width:60%;">
-					<thead>
-						<tr>
-							<th>
-								<h2>
-									<strong>Excel Config</strong>
-								</h2>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach items="${propExcel}" var="prop">
-							<tr>
-								<td><h3>${prop}</h3></td>
-							</tr>
-						</c:forEach>
-					</tbody>
 				</table>
 			</div>
 		</div>

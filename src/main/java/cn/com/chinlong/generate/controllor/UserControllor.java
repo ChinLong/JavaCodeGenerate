@@ -17,6 +17,12 @@ import cn.com.chinlong.utils.PropertyUtils;
 @RequestMapping("user")
 public class UserControllor {
 
+	/**
+	 * 登录
+	 * @param request
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, UserEntity user) {
 		if ("admin".equals(user.getUserName()) && "admin".equals(user.getPassword())) {
@@ -26,15 +32,20 @@ public class UserControllor {
 			Properties propTemplate = PropertyUtils.getProperty(Resource.TEMPLETE_FILENAME);
 			request.setAttribute("propTemplate", propTemplate);
 			request.getServletContext().setAttribute("propExcel", propExcel);
-			return "pages/main";
+			return "main";
 		}
 		request.setAttribute("msg", "UserName or Password Error");
-		return "pages/login";
+		return "login";
 	}
+	/**
+	 * 注销
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String login(HttpServletRequest request) {
 		request.getSession().removeAttribute(SystemConfig.SESSION_USER_KEY);
 		request.setAttribute("msg", "Logout Success!");
-		return "pages/login";
+		return "login";
 	}
 }

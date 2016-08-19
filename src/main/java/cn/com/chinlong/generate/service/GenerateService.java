@@ -29,10 +29,10 @@ import cn.com.chinlong.utils.FreeMarkerUtils;
 import cn.com.chinlong.utils.PropertyUtils;
 import cn.com.chinlong.utils.StringUtils;
 
-@Service("codeGenertorService")
-public class CodeGenertorService {
+@Service()
+public class GenerateService {
 
-	//@Autowired
+	// @Autowired
 	private IDataBaseUtil dataBaseUtil = new MySqlDataBaseUtil();
 
 	/**
@@ -62,6 +62,7 @@ public class CodeGenertorService {
 	 * @return
 	 */
 	public List<TableEntity> readExcelSheets() {
+		List<TableEntity> tableList = new ArrayList<TableEntity>();
 		try {
 			// 读取配置
 			Properties p = PropertyUtils.getProperty(Resource.EXCEL_FILENAME);
@@ -69,7 +70,6 @@ public class CodeGenertorService {
 			int sheetCount = wb.getNumberOfSheets();
 			int startSheet = Integer.parseInt(p.getProperty(ExcelConfig.START_SHEET));
 			Sheet sheet = null;
-			List<TableEntity> tableList = new ArrayList<TableEntity>();
 			TableEntity table = null;
 			String tableNameDesc = null;
 			// 表名
@@ -93,7 +93,7 @@ public class CodeGenertorService {
 		} catch (InvalidFormatException | IOException e) {
 			e.printStackTrace();
 		}
-		return ExcelUtil.readTableEntity();
+		return tableList;
 	}
 
 	/**
@@ -105,7 +105,15 @@ public class CodeGenertorService {
 		boolean result = true;
 		try {
 			Properties p = PropertyUtils.getProperty(Resource.TEMPLETE_FILENAME);
-			String path = p.getProperty(TemplateConfig.PROJECT_PATH) + p.getProperty(TemplateConfig.ENTITY_TEMPLATE_NAME).replaceAll(Sign.POINT, File.separator);
+			String path = p.getProperty(TemplateConfig.ENTITY_PACKAGE);
+			String[] strArray = path.split(Sign.POINT);
+			StringBuffer sb = new StringBuffer();
+			sb.append(p.getProperty(TemplateConfig.PROJECT_PATH));
+			for (String str : strArray) {
+				sb.append(str);
+				sb.append(File.separator);
+			}
+			path = sb.toString();
 			FileUtils.mkDir(new File(path));
 			ClassBean classBean = null;
 			for (String sheetName : sheetNameList) {
@@ -128,7 +136,15 @@ public class CodeGenertorService {
 		boolean result = true;
 		try {
 			Properties p = PropertyUtils.getProperty(Resource.TEMPLETE_FILENAME);
-			String path = p.getProperty(TemplateConfig.PROJECT_PATH) + p.getProperty(TemplateConfig.ENTITY_TEMPLATE_NAME).replaceAll(Sign.POINT, File.separator);
+			String path = p.getProperty(TemplateConfig.ENTITY_PACKAGE);
+			String[] strArray = path.split(Sign.POINT);
+			StringBuffer sb = new StringBuffer();
+			sb.append(p.getProperty(TemplateConfig.PROJECT_PATH));
+			for (String str : strArray) {
+				sb.append(str);
+				sb.append(File.separator);
+			}
+			path = sb.toString();
 			FileUtils.mkDir(new File(path));
 			ClassBean classBean = null;
 			for (String tableName : tableNameList) {
@@ -151,15 +167,16 @@ public class CodeGenertorService {
 	 * 
 	 * @param params
 	 */
-	public boolean createSql(List<String> sheetNameList) {
+	public boolean createSqlFromExcel(List<String> sheetNameList) {
 		boolean result = true;
 		try {
 			Properties p = PropertyUtils.getProperty(Resource.TEMPLETE_FILENAME);
 			TableEntity table = null;
+			String path = p.getProperty(TemplateConfig.SQL_PATH);
+			FileUtils.mkDir(new File(path));
 			for (String sheetName : sheetNameList) {
 				table = ExcelUtil.readExcelSheet(sheetName);
-				FreeMarkerUtils.writeTemplete(p.getProperty(TemplateConfig.TEMPLATE_PATH), p.getProperty(TemplateConfig.SQL_TEMPLATE_NAME), Dto2Map.po2Map(table), p.getProperty(TemplateConfig.SQL_PATH), table.getTableName() + ".sql");
-
+				FreeMarkerUtils.writeTemplete(p.getProperty(TemplateConfig.TEMPLATE_PATH), p.getProperty(TemplateConfig.SQL_TEMPLATE_NAME), Dto2Map.po2Map(table), path, table.getTableName() + ".sql");
 			}
 		} catch (Exception e) {
 			result = false;

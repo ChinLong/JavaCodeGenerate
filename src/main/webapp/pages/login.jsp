@@ -28,26 +28,41 @@ canvas {
 			lineColor : '#5cbdaa'
 		});
 		//测试提交，对接程序删除即可
-		//$(".submit_btn").click(function() {
-		//	location.href = "pages/main.html";
-		//});
+		$(".submit_btn").click(function() {
+			var userName = $('#userName').val();
+			var password = $('#password').val();
+			var valid = true;
+			if(null == userName || '' == userName){
+				valid = false;
+				$('#userNameMsg').html("userName cannot be null");
+			}
+			if(null == userName || '' == userName){
+				valid = false;
+				$('#passwordMsg').html("password cannot be null");
+			}
+			if(valid){
+				$('#login').submit();
+			}
+		});
 	});
 </script>
 </head>
 <body>
-	<form action="../user/login.htm" method="post">
+	<form id="login" action="../user/login.htm" method="post">
 		<dl class="admin_login">
 			<dt>
 				<strong>JavaCodeGenerate</strong> <em style="color:red">${msg}</em>
+				<em id="userNameMsg" style="color:red"></em>
+				<em id="passwordMsg" style="color:red"></em>
 			</dt>
 			<dd class="user_icon">
-				<input type="text" name="userName" placeholder="UserName" class="login_txtbx" />
+				<input type="text" id="userName" name="userName" placeholder="UserName" class="login_txtbx" />
 			</dd>
 			<dd class="pwd_icon">
-				<input type="password" name="password" placeholder="Password" class="login_txtbx" />
+				<input type="password" id="password" name="password" placeholder="Password" class="login_txtbx" />
 			</dd>
 			<dd>
-				<input type="submit" value="Login" class="submit_btn" />
+				<input type="button" value="Login" class="submit_btn" id="submit_btn"/>
 			</dd>
 			<dd>
 				<p>Copyright &copy;2016 JavaCodeGenerate</p>

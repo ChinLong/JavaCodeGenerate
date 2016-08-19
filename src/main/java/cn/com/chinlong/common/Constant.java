@@ -17,7 +17,7 @@ public class Constant {
 		// 逗号
 		public static final String COMMA = ",";
 		// 点号
-		public static final String POINT = ".";
+		public static final String POINT = "\\.";
 		// 下划线
 		public static final String UNDERSCORE = "_";
 	}
