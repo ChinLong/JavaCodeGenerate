@@ -19,7 +19,7 @@ import cn.com.chinlong.utils.StringUtils;
 public class Table2Entity {
 
 	/**
-	 * 将
+	 * 将表转成实体类
 	 * 
 	 * @param sheetNameList
 	 * @return
@@ -29,7 +29,7 @@ public class Table2Entity {
 		String packageValue = p.getProperty(TemplateConfig.ENTITY_PACKAGE);
 		boolean underscoreToCamel = Boolean.parseBoolean(p.getProperty(TemplateConfig.UNDERSCORE_TO_CAMEL_CASE));
 		ClassBean entity = new ClassBean();
-		
+
 		String tempItem = null;
 		List<ClassColumnBean> classColumnList = null;
 		List<TableColumnEntity> tableColumnList = null;
@@ -91,6 +91,13 @@ public class Table2Entity {
 		return entity;
 	}
 
+	/**
+	 * 默认值
+	 * 
+	 * @param className
+	 * @param defaultValue
+	 * @return
+	 */
 	private static final String getDefaultValueToString(String className, String defaultValue) {
 		if (StringUtils.isEmpty(defaultValue)) {
 			return null;

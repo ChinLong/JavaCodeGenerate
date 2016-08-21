@@ -2,9 +2,28 @@ package cn.com.chinlong.common;
 
 public class Constant {
 
+	/**
+	 * 编码集
+	 * 
+	 * @author ChinLong
+	 *
+	 */
 	public final static class Encoding {
 		public static final String UTF8 = "UTF-8";
 	}
+
+	/**
+	 * 系统设置
+	 * 
+	 * @author ChinLong
+	 *
+	 */
+	/**
+	 * Session
+	 * 
+	 * @author ChinLong
+	 *
+	 */
 	public final static class SystemConfig {
 		public static final String SESSION_USER_KEY = "session_user";
 	}
@@ -17,11 +36,17 @@ public class Constant {
 		// 逗号
 		public static final String COMMA = ",";
 		// 点号
-		public static final String POINT = "\\.";
+		public static final String POINT = ".";
 		// 下划线
 		public static final String UNDERSCORE = "_";
 	}
 
+	/**
+	 * 资源
+	 * 
+	 * @author ChinLong
+	 *
+	 */
 	public final static class Resource {
 		// 数据库连接资源文件名
 		public static final String TEMPLETE_FILENAME = "templete_config.properties";
@@ -29,6 +54,12 @@ public class Constant {
 		public static final String EXCEL_FILENAME = "excel_config.properties";
 	}
 
+	/**
+	 * 模版类型
+	 * 
+	 * @author ChinLong
+	 *
+	 */
 	public final static class TemplateConfig {
 		public static final String DB_URL = "db.url";
 		public static final String DB_USERNAME = "db.username";
@@ -43,6 +74,12 @@ public class Constant {
 		public static final String ENTITY_TEMPLATE_NAME = "entity_template_name";
 	}
 
+	/**
+	 * Excel配置
+	 * 
+	 * @author ChinLong
+	 *
+	 */
 	public final static class ExcelConfig {
 		public static final String EXCEL_PATH = "excel_path"; // excel文件路径
 
@@ -69,5 +106,24 @@ public class Constant {
 		public static final String COLUMN_UNIQUE_KEY_CEL = "column_unique_key_cel"; // 唯一键列
 		public static final String COLUMN_NOT_NULL_CEL = "column_not_null_cel"; // 是否可为null
 		public static final String COLUMN_DEFAULT_VALUE_CEL = "column_default_value_cel"; // 默认值
+	}
+
+	/**
+	 * 数据库类型
+	 * 
+	 * @author ChinLong
+	 *
+	 */
+	public final static class DbType {
+		public static final String DB_TYPE = "db.type"; // db.type
+		public static final String MYSQL = "mysql"; // mysql
+		public static final String MARIADB = "mariadb"; // mariadb
+		public static final String ORACLE = "oracle"; // oracle
+		public static final String SQLSERVER = "sqlserver"; // sqlserver
+		public static final String DB2 = "db2"; // db2
+		public static final String POSTGRESQL = "postgresql"; // postgresql
+		public static final String SYBASE = "sybase"; // sybase
+		public static final String ACCESS = "access"; // access
+
 	}
 }

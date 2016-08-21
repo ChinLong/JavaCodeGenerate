@@ -10,7 +10,6 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.com.chinlong.common.Constant.ExcelConfig;
@@ -21,7 +20,6 @@ import cn.com.chinlong.generate.entity.ClassBean;
 import cn.com.chinlong.generate.entity.TableEntity;
 import cn.com.chinlong.generate.util.ExcelUtil;
 import cn.com.chinlong.generate.util.IDataBaseUtil;
-import cn.com.chinlong.generate.util.MySqlDataBaseUtil;
 import cn.com.chinlong.generate.util.Table2Entity;
 import cn.com.chinlong.utils.Dto2Map;
 import cn.com.chinlong.utils.FileUtils;
@@ -29,11 +27,10 @@ import cn.com.chinlong.utils.FreeMarkerUtils;
 import cn.com.chinlong.utils.PropertyUtils;
 import cn.com.chinlong.utils.StringUtils;
 
-@Service()
+@Service("generateService")
 public class GenerateService {
 
-	// @Autowired
-	private IDataBaseUtil dataBaseUtil = new MySqlDataBaseUtil();
+	private static IDataBaseUtil dataBaseUtil;
 
 	/**
 	 * 查询数据库所有表
@@ -41,6 +38,7 @@ public class GenerateService {
 	 * @return
 	 */
 	public List<TableEntity> readAllTables() {
+		dataBaseUtil = new DataBaseUtilFactory().getDataBaseUtil();
 		List<TableEntity> tableList = dataBaseUtil.getAllTableNames();
 		return tableList;
 	}
@@ -147,6 +145,7 @@ public class GenerateService {
 			path = sb.toString();
 			FileUtils.mkDir(new File(path));
 			ClassBean classBean = null;
+			dataBaseUtil = new DataBaseUtilFactory().getDataBaseUtil();
 			for (String tableName : tableNameList) {
 				classBean = Table2Entity.table2Entity(dataBaseUtil.getTableInfo(tableName));
 				FreeMarkerUtils.writeTemplete(p.getProperty(TemplateConfig.TEMPLATE_PATH), p.getProperty(TemplateConfig.ENTITY_TEMPLATE_NAME), Dto2Map.po2Map(classBean), path, classBean.getClassName() + ".java");
